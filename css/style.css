@@ -1,0 +1,76 @@
+#root{
+    display: flex;
+    height: 100vh;
+}
+
+.left{
+    width: 40%;
+    background-color: antiquewhite;
+    padding: 10px;
+}
+
+.right{
+    width: 60%;
+    background-color:lavender;
+    padding: 10px;
+}
+
+.title {
+    color:rgb(15, 65, 65);
+    font-size: 42px;
+}
+
+.list{
+    list-style: none;
+}
+
+.button{
+    background-color: darkslateblue;
+    font-size: 18px;
+    color: antiquewhite;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    height: 34px;
+}
+
+.item{
+    display: flex;
+
+}
+
+.book-title{
+    font-size: 18px;
+    margin-right: auto;
+}
+
+.btn-delete{
+    background-color: rgb(138, 59, 59);
+    color: antiquewhite;
+    height: 25px;
+    width: 55px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit{
+    background-color: darkolivegreen;
+    color: antiquewhite;
+    height: 25px;
+    width: 55px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.preview-box{
+    padding: 10px;
+}
+
+.preview-title{
+    font-size: 34px;
+    color:darkslategray;
+    
+}
