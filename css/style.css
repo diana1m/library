@@ -5,14 +5,14 @@
 
 .left{
     width: 40%;
-    background-color: antiquewhite;
+    background-color: #faebd7;
     padding: 10px;
 }
 
 .right{
     width: 60%;
-    background-color:lavender;
-    padding: 10px;
+    background-color:#dcdcfa;
+    padding: 15px;
 }
 
 .title {
@@ -22,46 +22,59 @@
 
 .list{
     list-style: none;
+    padding-left: 0;
 }
 
-.button{
-    background-color: darkslateblue;
+.button-add{
+    background-color: #faebd7;
     font-size: 18px;
-    color: antiquewhite;
+    color: #9494b1;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    border: 2px solid #9494b1;
     width: 100px;
     height: 34px;
 }
 
 .item{
     display: flex;
-
+    align-items: center;
+    justify-content: space-between;
+    max-width: 450px;
+    margin-bottom: 35px;
 }
 
 .book-title{
-    font-size: 18px;
+    font-size: 26px;
     margin-right: auto;
 }
 
+.btn-box{
+    display: flex;
+    align-items: center;
+}
+
 .btn-delete{
-    background-color: rgb(138, 59, 59);
-    color: antiquewhite;
+    background-color: #faebd7;
+    color:rgb(218, 47, 12);
     height: 25px;
     width: 55px;
+    /* margin-right: 15px; */
     border-radius: 3px;
-    border: none;
+    border: 2px solid rgb(218, 47, 12);
     cursor: pointer;
 }
 
 .btn-edit{
-    background-color: darkolivegreen;
-    color: antiquewhite;
+    background-color: #faebd7;
+    color: #949463;
     height: 25px;
     width: 55px;
+    margin-left: 15px;
+
     border-radius: 3px;
-    border: none;
+    border: 2px solid #949463;
     cursor: pointer;
 }
 

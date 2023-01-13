@@ -57,7 +57,7 @@ const list = document.createElement("ul");
 list.classList.add("list");
 
 const button = document.createElement("button");
-button.classList.add("button");
+button.classList.add("button-add");
 button.textContent = "Add";
 
 left.append(title, list, button); 
@@ -66,8 +66,10 @@ function renderBooksList(){
     const markup = books.map(({id, title}) => 
     `<li id = "${id}" class="item">
     <p class="books-title">${title}</p>
+    <div class = "btn-box">
     <button class = "btn-delete">Delete</button>
     <button class = "btn-edit">Edit</button>
+    </div>
     </li>`).join("")
     list.innerHTML = "";
     list.insertAdjacentHTML("beforeend", markup);
