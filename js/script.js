@@ -1,4 +1,4 @@
-let books = [
+const data = [
     {
         id: "1",
         title: `Apple. Эволюция компьютера`,
@@ -38,6 +38,10 @@ let books = [
         какими инструментами ему нужно пользоваться.`,
       }
 ]
+if(!JSON.parse(localStorage.getItem("books"))){
+  localStorage.setItem("books",JSON.stringify(data));
+}
+
 const root = document.querySelector("#root");
 
 const left = document.createElement("div");
@@ -57,19 +61,20 @@ const list = document.createElement("ul");
 list.classList.add("list");
 
 const button = document.createElement("button");
-button.classList.add("button-add");
+button.classList.add("button");
 button.textContent = "Add";
+
+button.addEventListener("click", addBook);
 
 left.append(title, list, button); 
 
 function renderBooksList(){
+  const books = JSON.parse(localStorage.getItem("books"));
     const markup = books.map(({id, title}) => 
     `<li id = "${id}" class="item">
     <p class="books-title">${title}</p>
-    <div class = "btn-box">
     <button class = "btn-delete">Delete</button>
     <button class = "btn-edit">Edit</button>
-    </div>
     </li>`).join("")
     list.innerHTML = "";
     list.insertAdjacentHTML("beforeend", markup);
@@ -78,10 +83,13 @@ function renderBooksList(){
     booksTitle.forEach(title => title.addEventListener('click', renderPreview));
     const btnDelete = document.querySelectorAll('.btn-delete');
     btnDelete.forEach(btn => btn.addEventListener('click', deleteBook));
+    const btnEdit = document.querySelectorAll(".btn-edit");
+    btnEdit.forEach(btn => btn.addEventListener("click", editBook));
 }
 renderBooksList();
 
 function renderPreview(evn){
+    const books = JSON.parse(localStorage.getItem("books"));
     const book = books.find(({title}) => title === evn.target.textContent);
     console.log(book);
     const markup = createPreviewMarkup(book);
@@ -92,8 +100,8 @@ function renderPreview(evn){
 function createPreviewMarkup({id, title, author, img, plot}){
     const markupPreview = 
     `<div data-id = "${id}" class = "preview-box">
-    <h2 class ="preview-title">${title}</h2>
-    <p class="preview-author">${author}</p>
+    <h2 class="preview-title">${title}</h2>
+    <p class= "preview-author">${author}</p>
     <img src = "${img}" alt ="${title}">
     <p class="preview-text">${plot}</p>
     </div>`
@@ -101,10 +109,105 @@ function createPreviewMarkup({id, title, author, img, plot}){
 }
 
 function deleteBook(evn){
+    const books = JSON.parse(localStorage.getItem("books"));
     const id = evn.target.parentNode.id;
     console.log(id);
     const newBooks = books.filter(book => book.id !== id);
     console.log(newBooks);
-    books = newBooks;
+    localStorage.setItem("books", JSON.stringify(newBooks));
     renderBooksList();
+
+    setTimeout(()=>{
+      alert("Book was successfully deleted");
+    },300)
+}
+
+function addBook(){
+  const newBook ={
+    id: Date.now(),
+    title: "",
+    author: "",
+    img: "",
+    plot: ""
+  }
+  const markup = createFotmMarkup(newBook);
+  right.insertAdjacentHTML("beforeend", markup);
+  formValue(newBook);
+  const formEl = document.querySelector("form");
+  formEl.addEventListener("submit", onFormSubmit);
+
+  function onFormSubmit(evn){
+    evn.preventDefault();
+    const valuesNewBook = Object.values(newBook);
+    
+    if(valuesNewBook.some(value => value === "")){
+      alert("Fill all");
+      return;
+    }
+    const books = JSON.parse(localStorage.getItem("books"));
+    books.push(newBook);
+    localStorage.setItem("books", JSON.stringify(books));
+    renderBooksList();
+    const previewMarkup = createPreviewMarkup(newBook);
+    right.innerHTML ="";
+    right.insertAdjacentHTML("beforeend", previewMarkup);
+  }
+
+  setTimeout(()=>{
+    alert("Book was successfully added");
+  },300)
+
+}
+
+function createFotmMarkup(book){
+  const {title, author, img, plot}= book;
+  const markup = `<form>
+  <label>Title
+  <input type="text" name="title" value = "${title}">
+  </label>
+  <label>Author
+  <input type="text" name="author" value = "${author}">
+  </label>
+  <label>Img
+  <input type="text" name="img" value = "${img}">
+  </label>
+  <label>Plot
+  <input type="text" name="plot" value = "${plot}">
+  </label>
+  <button type="submit">Save</button>
+  </form>`
+  return markup;
+}
+
+function formValue(book){
+  const refInputs =document.querySelectorAll("input");
+  refInputs.forEach(input => input.addEventListener("change", onInputChange));
+  function onInputChange(evt){
+    book[evt.target.name] = evt.target.value;
+  }
+}
+
+function editBook (evn){
+  const id = evn.target.parentNode.id;
+  const books = JSON.parse(localStorage.getItem("books"));
+  const targetBook = books.find(book => book.id === id);
+  console.log(targetBook);
+  const formMarkup = createFotmMarkup(targetBook);
+  right.insertAdjacentHTML("beforeend", formMarkup);
+  formValue(targetBook);
+  const formEl = document.querySelector("form");
+  formEl.addEventListener("submit", onFormSubmit);
+  function onFormSubmit (evn){
+    evn.preventDefault();
+    const indexBook = books.findIndex(book => book.id === id);
+    books.splice(indexBook, 1, targetBook);
+    localStorage.setItem("books", JSON.stringify(books));
+    renderBooksList();
+    const previewMarkup = createPreviewMarkup(targetBook);
+    right.innerHTML ="";
+    right.insertAdjacentHTML("beforeend", previewMarkup);
+  }
+  setTimeout(()=>{
+    alert("Book was successfully edited");
+  },300)
 }
